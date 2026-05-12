@@ -1,9 +1,9 @@
-use std::{error::Error, thread};
+use std::{error::Error, thread, time};
 
 use borsh::{BorshDeserialize, BorshSerialize};
 use crosstown_bus::{CrosstownBus, HandleError, MessageHandler, QueueProperties};
 
-const AMQP_URL: &str = "amqp://guest:guest@localhost:5672";
+const AMQP_URL: &str = "amqp://guest:guest@127.0.0.1:5672";
 const USER_CREATED_QUEUE: &str = "user_created";
 
 #[derive(Debug, Clone, BorshDeserialize, BorshSerialize)]
@@ -20,6 +20,11 @@ impl MessageHandler<UserCreatedEventMessage> for UserCreatedHandler {
     }
 
     fn handle(&self, message: Box<UserCreatedEventMessage>) -> Result<(), HandleError> {
+        let ten_millis = time::Duration::from_millis(1000); 
+        let now = time::Instant::now(); 
+         
+        thread::sleep(ten_millis);
+        
         println!(
             "In Dab's Computer 2406405720. Message received: {:?}",
             message

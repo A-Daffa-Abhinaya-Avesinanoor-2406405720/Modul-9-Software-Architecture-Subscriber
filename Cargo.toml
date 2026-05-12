@@ -12,3 +12,8 @@ futures = "0.3"
 borsh = "0.9.3" 
 borsh-derive = "0.9.1" 
 tokio = {version="1.21.2", features=["full"]}
+
+# mio 0.6 is pulled by amiquip/crosstown_bus 0.5.x and can panic on newer
+# Windows Rust toolchains when debug assertions are enabled.
+[profile.dev.package.mio]
+debug-assertions = false
